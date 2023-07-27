@@ -6,30 +6,35 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
+//import jwt from 'jsonwebtoken';
+const jwt = require('jsonwebtoken');
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(private jwtService: JwtService) {}
 
+
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    const token = this.extractTokenFromHeader(request);
-    if (!token) {
-      throw new UnauthorizedException();
-    }
+    const token = request.headers.authorization;
+    const publicKey = process.env.PUBLIC_KEY;
+    //remove bearer from token
+    const tokenWithoutBearer = token.split(' ')[1];
     try {
-      // const payload = await this.jwtService.verifyAsync(token, {
-      //   secret: jwtConstants.secret,
-      // });
-      const payload = 'you got authd';
-      // 💡 We're assigning the payload to the request object here
-      // so that we can access it in our route handlers
-      request['user'] = payload;
-    } catch {
-      throw new UnauthorizedException();
+      let decoded :any= "";
+      if (token) {
+        decoded = jwt.verify(tokenWithoutBearer, publicKey, {
+          algorithms: ['RS256'],
+        });
+        return true;
+      } else {
+        return true;
+      }
+    } catch (error) {
+      console.log(error);
     }
-    return true;
-  }
+    return false;
+  };
 
   private extractTokenFromHeader(request: Request): string | undefined {
     const [type, token] = request.headers.authorization?.split(' ') ?? [];

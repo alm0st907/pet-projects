@@ -26,6 +26,7 @@ export class AuthGuard implements CanActivate {
         decoded = jwt.verify(tokenWithoutBearer, publicKey, {
           algorithms: ['RS256'],
         });
+        request['user'] = decoded;
         return true;
       } else {
         return true;

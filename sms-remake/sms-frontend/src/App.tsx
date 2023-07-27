@@ -17,9 +17,20 @@ function App() {
        fetchToken();
     });
 
+    const [text, setText] = useState("");
+
+    const handleChange = (event) => {
+        setText(event.target.value);
+    };
+
+    const handleClick = () => {
+        console.log(text);
+    };
+
 
     return (
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
         <div>
             <SignedIn>
                 <>
@@ -56,6 +67,15 @@ function App() {
                     <div style={{ width: '80vw', wordBreak: 'break-all' }}>
                         Token: {token}
                     </div>
+
+                    <div style={{padding :'10px'}}>
+                        <input type="text" id="text" name="text" onChange={handleChange} value={text} />
+                    </div>
+                    {/*add padding around div*/}
+                    <div style={{ padding: '10px' }}>
+                        <button onClick={handleClick}>Log Text</button>
+                    </div>
+
                 </>
             </SignedIn>
             <SignedOut>

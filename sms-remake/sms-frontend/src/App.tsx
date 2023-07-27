@@ -1,15 +1,26 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import {ClerkProvider, RedirectToSignIn, SignedIn, SignedOut, UserButton} from "@clerk/clerk-react";
+import {RedirectToSignIn, SignedIn, SignedOut, useAuth, UserButton} from "@clerk/clerk-react";
 
 function App() {
     const [count, setCount] = useState(0)
+    const {  userId, sessionId, getToken } = useAuth();
+    const [token, setToken] = useState<string | null>(null);
+    //use effect
+    useEffect(() => {
+       const fetchToken = async () => {
+           const token = await getToken();
+           setToken(token);
+       }
+       fetchToken();
+    });
+
 
     return (
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        <ClerkProvider publishableKey={REACT_APP_CLERK_PUBLISHABLE_KEY}>
+        <div>
             <SignedIn>
                 <>
                     <div style={{
@@ -39,12 +50,18 @@ function App() {
                     <p className="read-the-docs">
                         Click on the Vite and React logos to learn more
                     </p>
+                    <div>Hello {userId}</div>
+                    <div>Session ID: {sessionId}</div>
+                    {/*set div width to be 80% of window and break the word*/}
+                    <div style={{ width: '80vw', wordBreak: 'break-all' }}>
+                        Token: {token}
+                    </div>
                 </>
             </SignedIn>
             <SignedOut>
                 <RedirectToSignIn/>
             </SignedOut>
-        </ClerkProvider>
+        </div>
     )
 }
 

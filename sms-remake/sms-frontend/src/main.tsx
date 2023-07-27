@@ -7,6 +7,7 @@ import {
     RouterProvider
 } from "react-router-dom";
 import Root from "./routes/root.tsx";
+import {ClerkProvider} from "@clerk/clerk-react";
 
 const router = createBrowserRouter([
     {
@@ -17,7 +18,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
-        <App/>
-        {/*  <RouterProvider router={router}/>*/}
+
+        <ClerkProvider publishableKey={REACT_APP_CLERK_PUBLISHABLE_KEY}>
+            <App/>
+            {/*  <RouterProvider router={router}/>*/}
+        </ClerkProvider>
     </React.StrictMode>,
 )

@@ -20,7 +20,7 @@
   ],
   "git": {
     "deploymentEnabled": {
-      "main": false,
+      "main": true,
       "garrett/auth-poc": false
     }
   }

@@ -37,7 +37,7 @@ const FormComponent = () => {
                 method: 'POST',
                 mode: "cors",
                 headers: {
-                    'allow-access-control-origin': '*',
+                    'Access-Control-Allow-Origin': '*',
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + thisToken!,
                 },

@@ -11,4 +11,10 @@ export default defineConfig({
   define: {
     REACT_APP_CLERK_PUBLISHABLE_KEY: `"${process.env.REACT_APP_CLERK_PUBLISHABLE_KEY}"`,
   },
+  server: {
+    open: true,
+    origin: 'http://localhost:5173/',
+    cors: false
+  },
+
 })

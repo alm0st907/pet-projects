@@ -7,6 +7,7 @@ import {
     RouterProvider
 } from "react-router-dom";
 import Root from "./routes/root.tsx";
+import {ClerkProvider} from "@clerk/clerk-react";
 
 const router = createBrowserRouter([
     {
@@ -17,7 +18,14 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
-        <App/>
-        {/*  <RouterProvider router={router}/>*/}
+        {/*div to make app only take 80% of window width*/}
+        <div style={{width: '80vw', padding: '10px'}}>
+            {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment */}
+            <ClerkProvider publishableKey={REACT_APP_CLERK_PUBLISHABLE_KEY}>
+                {/*this is established in .env files so ignore the lint*/}
+                <App/>
+                {/*  <RouterProvider router={router}/>*/}
+            </ClerkProvider>
+        </div>
     </React.StrictMode>,
 )

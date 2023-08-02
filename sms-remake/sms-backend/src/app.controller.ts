@@ -11,8 +11,9 @@ export class AppController {
   }
   @Post()
   postHello(@Req() request: Request): string {
-    console.log(request.headers['authorization']);
-    console.log(request['user']);
+    // console.log(request.headers['authorization']);
+    // console.log(request['user']);
+    console.log(request.body);
     return this.appService.getHello();
   }
 }

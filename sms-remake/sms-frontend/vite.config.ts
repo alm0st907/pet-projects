@@ -14,8 +14,8 @@ export default defineConfig({
   },
   server: {
     open: true,
-    origin: 'http://localhost:5173/',
-    cors: false
+    origin: 'http://localhost:5173',
+    cors: true
   },
 
 })

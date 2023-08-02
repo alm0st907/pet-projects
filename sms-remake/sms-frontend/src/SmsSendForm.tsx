@@ -33,7 +33,7 @@ const FormComponent = () => {
         //fetch('http://localhost:3000/api/sms', {
         const thisToken = await getToken();
         try {
-            let resp = await fetch('http://localhost:3000/', {
+            let resp = await fetch(BACKEND_URL.toString(), {
                 method: 'POST',
                 mode: "cors",
                 headers: {

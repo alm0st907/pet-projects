@@ -10,6 +10,7 @@ export default defineConfig({
   plugins: [react()],
   define: {
     REACT_APP_CLERK_PUBLISHABLE_KEY: `"${process.env.REACT_APP_CLERK_PUBLISHABLE_KEY}"`,
+    BACKEND_URL: `"${process.env.BACKEND_URL}"`,
   },
   server: {
     open: true,

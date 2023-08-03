@@ -1,5 +1,6 @@
 import { Controller, Get, Post, Req } from '@nestjs/common';
 import { AppService } from './app.service';
+import {json} from "express";
 
 @Controller()
 export class AppController {
@@ -15,5 +16,17 @@ export class AppController {
     // console.log(request['user']);
     console.log(request.body);
     return this.appService.getHello();
+  }
+
+  @Post('send-sms')
+  async sendSms(@Req() request: Request): Promise<string> {
+    console.log(request.body);
+    //deserialize body
+    const body = JSON.parse(JSON.stringify(request.body));
+    const msgBody = body.textMessage;
+    const recipientNumber = body.phoneNumber;
+    const result = await this.appService.sendSms(msgBody, recipientNumber);
+    if(!result) throw new Error('SMS failed to send');
+    return 'SMS sent successfully' ;
   }
 }

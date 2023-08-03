@@ -20,7 +20,8 @@
     "semantic-ui-css": "^2.5.0",
     "semantic-ui-less": "^2.5.0",
     "semantic-ui-react": "^2.1.4",
-    "sort-by": "^0.0.2"
+    "sort-by": "^0.0.2",
+    "twilio": "^4.14.1"
   },
   "devDependencies": {
     "@types/node": "^20.4.2",

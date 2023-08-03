@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Form, Input, Button, TextArea} from "semantic-ui-react";
 import {useAuth} from "@clerk/clerk-react";
 
@@ -10,6 +10,14 @@ const FormComponent = () => {
 
     const {userId, sessionId, getToken} = useAuth();
     const [token, setToken] = useState<string | null>(null);
+    const [SendState, setSendState] = useState<string | null>(null);
+
+    //use effect to set sendState after 5 seconds
+    useEffect(() => {
+        setTimeout(() => {
+            setSendState(null);
+        }, 5000);
+    }, [SendState]);
 
     const handleChange = (event: any) => {
         const {name, value} = event.target;
@@ -44,10 +52,22 @@ const FormComponent = () => {
                 body: JSON.stringify({phoneNumber, textMessage}),
             });
             //read body and log it
+            if(resp.status == 500) {
+                setSendState("Error sending message");
+                return;
+            }
+
             let body = await resp.text();
             console.log(body);
+            // handleChange({target: {name: "phoneNumber", value: ""}});
+            // handleChange({target: {name: "textMessage", value: ""}});
+            setPhoneNumber("");
+            setTextMessage("");
+            setSendState("Message sent successfully");
+
         } catch (err) {
             console.log(err);
+            setSendState("Error sending message");
         }
     };
 
@@ -58,8 +78,9 @@ const FormComponent = () => {
                 <Input
                     name="phoneNumber"
                     label="Phone Number"
-                    placeholder="123-456-7890"
                     type="tel"
+                    placeholder="Enter phone number"
+                    value={phoneNumber}
                     onChange={handleChange}
                 />
             </Form>
@@ -68,12 +89,17 @@ const FormComponent = () => {
                 <TextArea
                     name="textMessage"
                     label="Text Message"
-                    placeholder="Enter your text message here"
+                    value={textMessage}
+                    placeholder="Enter your text"
                     onChange={handleChange}>
                 </TextArea>
             </Form>
             <div style={{padding: '10px'}}></div>
+            {/*generate an error msg if handleSubmit returns false*/}
             <Button onClick={handleSubmit}>Send</Button>
+            {/*remove div after 10 seconds*/}
+            {SendState === "Error sending message" && <div style={{color: 'red'}}>{SendState}</div>}
+            {SendState === "Message sent successfully" && <div style={{color: 'green'}}>{SendState}</div>}
         </div>
     );
 };

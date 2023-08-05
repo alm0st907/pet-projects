@@ -8,8 +8,7 @@ const FormComponent = () => {
     const [phoneNumber, setPhoneNumber] = useState("");
     const [textMessage, setTextMessage] = useState("");
 
-    const {userId, sessionId, getToken} = useAuth();
-    const [token, setToken] = useState<string | null>(null);
+    const { getToken} = useAuth();
     const [SendState, setSendState] = useState<string | null>(null);
 
     //use effect to set sendState after 5 seconds

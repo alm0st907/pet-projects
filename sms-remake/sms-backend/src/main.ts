@@ -11,6 +11,7 @@ async function bootstrap() {
     .setDescription('API for SMS notifier')
     .setVersion('1.0')
     .addTag('UserManagement')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

@@ -7,12 +7,17 @@ export class AppService {
     return 'Hello World!';
   }
 
-  async sendSms(msgBody: string, recipientNumber: string): Promise<boolean> {
+  async sendSms(
+    msgBody: string,
+    recipientNumber: string,
+    userId: string,
+  ): Promise<boolean> {
     const accountSid = process.env.TWILIO_ACCOUNT_SID;
     const authToken = process.env.TWILIO_AUTH_TOKEN;
     const twilioNumber = process.env.TWILIO_PHONE_NUMBER;
     const myNumber = process.env.MY_NUMBER;
     const client = new Twilio(accountSid, authToken);
+    console.log('userId: ' + userId);
     try {
       const result = await client.messages.create({
         from: twilioNumber,

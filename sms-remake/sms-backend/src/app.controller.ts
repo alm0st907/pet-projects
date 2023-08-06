@@ -1,8 +1,11 @@
-import { Controller, Get, Post, Req } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req } from '@nestjs/common';
 import { AppService } from './app.service';
-import {json} from "express";
+import { ApiBearerAuth, ApiBody, ApiParam } from '@nestjs/swagger';
+import { messageDto } from './companies/dtos/message.dto';
+import { request } from 'express';
 
 @Controller()
+@ApiBearerAuth()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
@@ -18,15 +21,22 @@ export class AppController {
     return this.appService.getHello();
   }
 
+  //allows us to send the message from swagger for test purposes
   @Post('send-sms')
-  async sendSms(@Req() request: Request): Promise<string> {
-    console.log(request.body);
-    //deserialize body
-    const body = JSON.parse(JSON.stringify(request.body));
-    const msgBody = body.textMessage;
-    const recipientNumber = body.phoneNumber;
-    const result = await this.appService.sendSms(msgBody, recipientNumber);
-    if(!result) throw new Error('SMS failed to send');
-    return 'SMS sent successfully' ;
+  @ApiBody({ type: messageDto })
+  async sendSms(
+    @Body() incomingMessage: messageDto,
+    @Req() request: Request,
+  ): Promise<string> {
+    const recipientNumber = incomingMessage.phoneNumber;
+    const msgBody = incomingMessage.textMessage;
+    const userId = request['user'].sub;
+    const result = await this.appService.sendSms(
+      msgBody,
+      recipientNumber,
+      userId,
+    );
+    if (!result) throw new Error('SMS failed to send');
+    return 'SMS sent successfully';
   }
 }

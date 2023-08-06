@@ -7,6 +7,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Company } from './typeorm/company.entity';
 import { CompaniesModule } from './companies/companies.module';
+import { TwilioCredential } from './typeorm/twilioCredential.entity';
 
 @Module({
   controllers: [AppController],
@@ -21,7 +22,7 @@ import { CompaniesModule } from './companies/companies.module';
         username: configService.get('POSTGRES_USER'),
         password: configService.get('POSTGRES_PASSWORD'),
         database: configService.get('POSTGRES_DATABASE'),
-        entities: [Company],
+        entities: [Company, TwilioCredential],
         synchronize: true,
         ssl: true,
         options: {

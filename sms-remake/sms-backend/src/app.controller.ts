@@ -29,7 +29,7 @@ export class AppController {
     @Req() request: Request,
   ): Promise<string> {
     const recipientNumber = incomingMessage.phoneNumber;
-    const msgBody = incomingMessage.textMessage;
+    const msgBody = incomingMessage.msg;
     const userId = request['user'].sub;
     const result = await this.appService.sendSms(
       msgBody,

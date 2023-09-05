@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Form, Input, Button, TextArea} from "semantic-ui-react";
 import {useAuth} from "@clerk/clerk-react";
-
+import precan from "./precan";
 
 
 const FormComponent = () => {
@@ -40,6 +40,7 @@ const FormComponent = () => {
         //fetch('http://localhost:3000/api/sms', {
         const thisToken = await getToken();
         try {
+            var msg = precan.gmiHeader + textMessage + precan.gmiFooter;
             let resp = await fetch(BACKEND_URL.toString(), {
                 method: 'POST',
                 mode: "cors",
@@ -48,7 +49,7 @@ const FormComponent = () => {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + thisToken!,
                 },
-                body: JSON.stringify({phoneNumber, textMessage}),
+                body: JSON.stringify({phoneNumber, msg}),
             });
             //read body and log it
             if(resp.status == 500) {
@@ -57,6 +58,7 @@ const FormComponent = () => {
             }
 
             let body = await resp.text();
+            console.log(msg);
             console.log(body);
             // handleChange({target: {name: "phoneNumber", value: ""}});
             // handleChange({target: {name: "textMessage", value: ""}});

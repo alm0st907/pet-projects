@@ -4,5 +4,6 @@
       "main": true,
       "garrett/auth-poc": false
     }
-  }
+  },
+  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
 }

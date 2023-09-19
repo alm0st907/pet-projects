@@ -12,6 +12,7 @@ export class AuthGuard implements CanActivate {
     const token = request.headers.authorization;
     const publicKey = process.env.PUBLIC_KEY;
     //remove bearer from token
+    if (token === null || token === undefined) return false;
     const tokenWithoutBearer = token.split(' ')[1];
     try {
       let decoded: any = '';

@@ -15,7 +15,7 @@ const FormComponent = () => {
     useEffect(() => {
         setTimeout(() => {
             setSendState(null);
-        }, 5000);
+        }, 6000);
     }, [SendState]);
 
     const handleChange = (event: any) => {
@@ -58,10 +58,8 @@ const FormComponent = () => {
             }
 
             let body = await resp.text();
-            console.log(msg);
-            console.log(body);
-            // handleChange({target: {name: "phoneNumber", value: ""}});
-            // handleChange({target: {name: "textMessage", value: ""}});
+            console.debug(msg);
+            console.debug(body);
             setPhoneNumber("");
             setTextMessage("");
             setSendState("Message sent successfully");
@@ -74,33 +72,29 @@ const FormComponent = () => {
 
 
     return (
-        <div>
-            <Form>
-                <Input
-                    name="phoneNumber"
-                    label="Phone Number"
-                    type="tel"
-                    placeholder="Enter phone number"
-                    value={phoneNumber}
-                    onChange={handleChange}
-                />
-            </Form>
-            <Form>
-                <div>Enter your text</div>
-                <TextArea
-                    name="textMessage"
-                    label="Text Message"
-                    value={textMessage}
-                    placeholder="Enter your text"
-                    onChange={handleChange}>
-                </TextArea>
-            </Form>
-            <div style={{padding: '10px'}}></div>
+        <div className="centered">
+            <div className="text-2xl p-1">Phone Number</div>
+            <input
+                name="phoneNumber"
+                type="tel"
+                placeholder="Enter phone number"
+                value={phoneNumber}
+                onChange={handleChange}
+                className="p-3 rounded-3xl w-96"
+            />
+            <div className="text-2xl p-1">Enter your text</div>
+            <textarea
+                name="textMessage"
+                value={textMessage}
+                placeholder="Enter your text"
+                onChange={handleChange}
+                className="p-3 rounded-3xl w-96 h-40"
+            />
+            <div className="p-2"> </div>
             {/*generate an error msg if handleSubmit returns false*/}
-            <Button onClick={handleSubmit}>Send</Button>
-            {/*remove div after 10 seconds*/}
-            {SendState === "Error sending message" && <div style={{color: 'red'}}>{SendState}</div>}
-            {SendState === "Message sent successfully" && <div style={{color: 'green'}}>{SendState}</div>}
+            <Button className="outline outline-2 px-4 py-2 rounded-md bg-green-500 hover:bg-green-700" onClick={handleSubmit}>Send</Button>
+            {SendState === "Error sending message" && <div className="accent-red-600 text-red-600 text-xl p-2">{SendState}</div>}
+            {SendState === "Message sent successfully" && <div className="accent-green-600 text-green-500 text-xl p-2">{SendState}</div>}
         </div>
     );
 };

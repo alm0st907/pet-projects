@@ -8,7 +8,7 @@ function App() {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 
         // style to take up 80% of the window width
-        <div >
+        <div className="centered w-auto">
             <SignedIn>
                     <div style={{
                         paddingBottom: '50px',
@@ -17,12 +17,7 @@ function App() {
                         <UserButton showName={true}></UserButton>
                     </div>
 
-                    <div style={{
-                        paddingBottom: '50px',
-                        boxSizing: 'content-box',
-                    }}>
                         <SmsSendForm></SmsSendForm>
-                    </div>
 
             </SignedIn>
             <SignedOut>
